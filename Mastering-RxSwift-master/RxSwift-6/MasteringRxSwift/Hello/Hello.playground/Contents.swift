@@ -23,3 +23,30 @@
 
 import UIKit
 import RxSwift
+
+let dispostBag = DisposeBag()
+
+/*
+Observable.just("Hello, RxSwift")
+    .subscribe { print($0) }
+    .disposed(by: dispostBag)
+*/
+
+/*
+var a = 1
+var b = 2
+a + b
+// 명령형 코드
+// 여기서 a를 바꿔도 위의 a+b값은 바뀌지 않는다
+a = 12
+*/
+
+// Reactive Programming(반응형 프로그래밍)
+let a = BehaviorSubject(value: 1)
+let b = BehaviorSubject(value: 2)
+
+Observable.combineLatest(a, b) { $0 + $1 }
+    .subscribe(onNext: { print($0) })
+    .disposed(by: dispostBag)
+// 여기서 a를 바꾸면 변경된 결과가 출력됨
+a.onNext(12)
