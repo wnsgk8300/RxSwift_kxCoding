@@ -32,19 +32,19 @@ import RxSwift
 let bag = DisposeBag()
 
 Observable.from([1, 2, 3, 4, 5, 6, 7, 8, 9])
+// take: source Observable이 방출하는 요소중에서 parameter로 지정한 수만큼 방출하는 새로운 Observable을 생성함
+// - 처음 5개의 요소만 전달함
+    .take(5)
+// 짝수만 filter
+    .filter { $0.isMultiple(of: 2) }
     .subscribe { print($0) }
     .disposed(by: bag)
 
-
-
-
-
-
-
-
-
-
-
-
-
+Observable.from([1, 2, 3, 4, 5, 6, 7, 8, 9])
+// 짝수만 filter
+    .filter { $0.isMultiple(of: 2) }
+// - 처음 5개의 요소만 전달함
+    .take(5)
+    .subscribe { print($0) }
+    .disposed(by: bag)
 
