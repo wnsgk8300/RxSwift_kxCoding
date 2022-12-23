@@ -28,25 +28,6 @@ import RxSwift
 /*:
  # PublishSubject
  */
-//Observable은 다른 Observable을 구독하지 못하고, Observer는 다른 Observer로 이벤트를 전달하지 못한다.
-//
-//Subject는 다른 Observable로부터 이벤트를 받아서 구독자로 전달할 수 있다.
-//
-//Observable인 동시에 Observer이다.
-
-//RxSwift가 제공하는 4가지 Sbuject
-
-//Subject로 전달되는 새로운 이벤트를 구독자로 전달함
-//
-//BehaviorSubject
-//
-//생성시점에 시작이벤트를 지정함
-//
-//Subject로 전달되는 이벤트 중에서 가장 마지막에 전달된 최신 이벤트를 저장해두었다가, 새로운 구독자에세 최신 이벤트를 전달한다.
-//
-//ReplaySubject
-//
-//하나 이상의 최신 이벤트를 버퍼에 저장함
 
 let disposeBag = DisposeBag()
 
@@ -54,8 +35,10 @@ enum MyError: Error {
    case error
 }
 
-
-
-
-
+//string이 포함된 next이벤트를 받아서 다른 observer에게 전달할 수 있다.
+// subject가 생성되는 시점에는 내부에 아무런 이벤트도 저장되어있지 않다.
+let subject = PublishSubject<String>()
+// subject도 observer기 때문에 onNext호출 가능
+subject.onNext("Hello")
+// subject는 observerble이기도 하기 때문에 다른 observer가 구독할 수 있다.
 
