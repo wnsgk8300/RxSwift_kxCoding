@@ -34,13 +34,24 @@ enum MyError: Error {
    case error
 }
 
+let p = PublishSubject<Int>()
 
+p.subscribe { print("PublishSubject >>", $0) }
+    .disposed(by: disposeBag)
 
+// behaviorSubject를 생성할 때는 하나의 값을 전달한다.
+// 새로운 구독자가 생성되면 저장된 next이벤트가 바로 전달된다
+let b = BehaviorSubject<Int>(value: 0)
+b.subscribe { print("BehaviorSubject >>", $0) }
+    .disposed(by: disposeBag)
 
+b.onNext(1)
 
+b.subscribe { print("BehaviorSubject2 >>", $0) }
+    .disposed(by: disposeBag)
 
+b.onCompleted()
 
-
-
-
-
+// subject로 completed이벤트가 전달되었기때문에 next이벤트는 다른 observer로 더이상 전달되지 않는다
+b.subscribe { print("BehaviorSubject3 >>", $0) }
+    .disposed(by: disposeBag)

@@ -42,3 +42,24 @@ let subject = PublishSubject<String>()
 subject.onNext("Hello")
 // subject는 observerble이기도 하기 때문에 다른 observer가 구독할 수 있다.
 
+let o1 = subject.subscribe { print(">> 1", $0) }
+o1.disposed(by: disposeBag)
+// RxSwift를 담은 next이벤트가 subject로 전달되고
+// subject는 이 이벤트를 구독자로 전달한다.
+subject.onNext("RxSwift")
+
+// o2 observer는 두개의 next이벤트가 전달된 이후에 구독을 시작했기때문에, 이 시점에는 아무런 이벤트도 전달받지 않은다.
+let o2 = subject.subscribe { print(">> 2", $0) }
+o2.disposed(by: disposeBag)
+
+subject.onNext("Subject")
+
+// 모든 구독자에게 completed, error가 전달된다.
+//subject.onCompleted()
+subject.onError(MyError.error)
+
+// observable에서 completed이벤트가 전달된 이후에는 더이상 next이벤트가 전달되지 않는다, subject도 마찬가지
+let o3 = subject.subscribe { print(">> 3", $0) }
+o3.disposed(by: disposeBag)
+
+
