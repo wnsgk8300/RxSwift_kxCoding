@@ -33,8 +33,10 @@ let disposeBag = DisposeBag()
 enum MyError: Error {
    case error
 }
+// 3개의 이벤트를 저장하는 버퍼 생성
+let rs = ReplaySubject<Int>.create(bufferSize: 3)
 
-
+(1...10).forEach { rs.onNext($0) }
 
 
 
