@@ -38,6 +38,47 @@ let rs = ReplaySubject<Int>.create(bufferSize: 3)
 
 (1...10).forEach { rs.onNext($0) }
 
+rs.subscribe { print("Observer 1 >>", $0) }
+    .disposed(by: disposeBag)
 
+rs.subscribe { print("Observer 2 >>", $0) }
+    .disposed(by: disposeBag)
 
+rs.onNext(11)
 
+rs.subscribe { print("Observer 3 >>", $0) }
+    .disposed(by: disposeBag)
+
+rs.onCompleted()
+
+rs.subscribe { print("Observer 4 >>", $0) }
+    .disposed(by: disposeBag)
+
+rs.onError(MyError.error)
+rs.subscribe { print("Observer 5 >>", $0) }
+    .disposed(by: disposeBag)
+
+/*
+Observer 1 >> next(8)
+Observer 1 >> next(9)
+Observer 1 >> next(10)
+Observer 2 >> next(8)
+Observer 2 >> next(9)
+Observer 2 >> next(10)
+Observer 1 >> next(11)
+Observer 2 >> next(11)
+Observer 3 >> next(9)
+Observer 3 >> next(10)
+Observer 3 >> next(11)
+Observer 1 >> completed
+Observer 2 >> completed
+Observer 3 >> completed
+Observer 4 >> next(9)
+Observer 4 >> next(10)
+Observer 4 >> next(11)
+Observer 4 >> completed
+Observer 4 >> next(9)
+Observer 4 >> next(10)
+Observer 4 >> next(11)
+Observer 4 >> completed
+*/
