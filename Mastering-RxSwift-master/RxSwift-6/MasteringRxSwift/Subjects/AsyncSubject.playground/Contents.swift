@@ -35,6 +35,13 @@ enum MyError: Error {
 }
 
 
+let subject = AsyncSubject<Int>()
+
+subject.subscribe { print($0) }
+    .disposed(by: bag)
+
+subject.onNext(1)
+
 
 
 
